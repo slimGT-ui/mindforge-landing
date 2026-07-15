@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindForge — ИИ-тренер</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #FF6B57;
+            --bg-gradient: linear-gradient(135deg, #f0f4fd 0%, #f5f3ff 100%);
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --card-bg: #FFFFFF;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        .bg-shape-1 {
+            position: absolute;
+            top: -10%; left: -5%;
+            width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1; border-radius: 50%;
+        }
+        .bg-shape-2 {
+            position: absolute;
+            bottom: 10%; right: -5%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(255,107,87,0.08) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1; border-radius: 50%;
+        }
+        header {
+            padding: 30px 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--primary), #6D28D9);
+            border-radius: 10px;
+            display: flex; justify-content: center; align-items: center;
+            color: white; font-size: 20px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px 100px 20px;
+            position: relative;
+        }
+        .hero {
+            text-align: center;
+            max-width: 850px;
+            margin-bottom: 80px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -1.5px;
+            color: var(--text-main);
+        }
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--text-main);
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 600;
+            padding: 18px 48px;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .cta-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            width: 100%;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: #F5F3FF;
+            color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            margin-bottom: 24px;
+            transition: background 0.3s;
+        }
+        .feature-card:nth-child(2) .feature-icon { color: var(--secondary); background: #FFF1F0; }
+        .feature-card:nth-child(3) .feature-icon { color: #10B981; background: #ECFDF5; }
+        .feature-card:nth-child(4) .feature-icon { color: #3B82F6; background: #EFF6FF; }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            header { padding: 20px; }
+            .features { grid-template-columns: 1fr; max-width: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shape-1"></div>
+    <div class="bg-shape-2"></div>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">M</div>
+            MindForge
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Твой персональный <span>ИИ-наставник.</span><br>Учись быстрее, чем когда-либо.</h1>
+            <p>Сервис, который помогает учиться чему угодно: программирование, языки, математика, спорт. Умный план, трекинг прогресса и разбор ошибок в одном месте.</p>
+            <a href="#" class="cta-btn">Создать мой путь обучения</a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Создай цель</h3>
+                <p class="feature-desc">Напиши: «Выучить Python за 90 дней», и система мгновенно поймет твой запрос.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3 class="feature-title">ИИ строит план</h3>
+                <p class="feature-desc">Получи пошаговую программу, адаптированную под твой уровень и темп.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Отслеживай прогресс</h3>
+                <p class="feature-desc">Красивые дашборды, визуализация навыков и статистика твоих достижений.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3 class="feature-title">Объясняет ошибки</h3>
+                <p class="feature-desc">Умный ассистент всегда рядом, чтобы разобрать сложные моменты и ответить на вопросы.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
